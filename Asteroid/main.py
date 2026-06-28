@@ -24,6 +24,7 @@ def main() -> None:
         screen.fill("black")
         dt = clock.tick(60) / 1000
         player.draw(screen)
+        player.update(dt)
         display.flip()
         
 
