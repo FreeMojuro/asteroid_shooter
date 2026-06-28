@@ -2,6 +2,8 @@ from constants import *
 from pygame import *
 import pygame
 from logger import log_state
+from circleshape import *
+from player import *
 
 
 def main() -> None:
@@ -12,6 +14,7 @@ def main() -> None:
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     dt = 0.0
+    player = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
     
     while True:
         log_state()
@@ -20,6 +23,7 @@ def main() -> None:
                 return
         screen.fill("black")
         dt = clock.tick(60) / 1000
+        player.draw(screen)
         display.flip()
         
 
