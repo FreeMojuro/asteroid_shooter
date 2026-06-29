@@ -57,13 +57,18 @@ def main() -> None:
         for y in updatable:
             y.update(dt)
         
-        for asteroid in asteroids:
-            if asteroid.collides_with(player) is True:
-                log_event("player_hit")
-                print("Game over!")
-                sys.exit()
+        if not player.is_invincible():
+            for asteroid in asteroids:
+                if asteroid.collides_with(player) is True:
+                    log_event("player_hit")
+                    result = player.hit()
+                    if result is True:
+                        print("Game over!")
+                        sys.exit()
+                    break
             
-            for shot in shots:
+        for shot in shots:
+            for asteroid in asteroids:
                 if asteroid.collides_with(shot) is True:
                     log_event("asteroid_shot")
                     asteroid.split()
@@ -72,12 +77,16 @@ def main() -> None:
                     # Spawn particles at the asteroid's position
                     for i in range(10):
                         Particle(asteroid.position.x, asteroid.position.y)
+                    break
                     
                     
                 
             
         text_surface = font.render(f"Score: {score}", True, (255, 255, 255))
         screen.blit(text_surface, (10, 10))      # top-left corner    
+        lives_surface = font.render(f"Lives: {player.lives}", True, (255, 255, 255))
+        screen.blit(lives_surface, (10, 40))  # just below the score
+        
         display.flip()
         
 
