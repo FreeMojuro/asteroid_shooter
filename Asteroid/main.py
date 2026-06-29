@@ -23,6 +23,12 @@ def main() -> None:
     dt = 0.0
     score = 0
     
+    stars = []
+    for _ in range(100):
+        x = random.randint(0, SCREEN_WIDTH)
+        y = random.randint(0, SCREEN_HEIGHT)
+        stars.append((x, y))
+    
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
@@ -43,6 +49,8 @@ def main() -> None:
             if event.type == pygame.QUIT:
                 return
         screen.fill("black")
+        for star in stars:
+            pygame.draw.circle(screen, "white", star, 1)
         dt = clock.tick(60) / 1000
         for x in drawable:
             x.draw(screen)

@@ -1,5 +1,6 @@
 import pygame
 from pygame import *
+from constants import *
 
 # Base class for game objects
 class CircleShape(pygame.sprite.Sprite):
@@ -21,8 +22,9 @@ class CircleShape(pygame.sprite.Sprite):
         pass
 
     def update(self, dt: float) -> None:
-        # must override
-        pass
+        self.position.x %= SCREEN_WIDTH
+        self.position.y %= SCREEN_HEIGHT
+        
     
     def collides_with(self, other) -> bool:
         if self.position.distance_to(other.position) > self.radius + other.radius:
