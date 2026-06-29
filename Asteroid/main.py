@@ -5,8 +5,6 @@ from logger import *
 from circleshape import *
 from player import *
 from asteroidfield import *
-import sys
-from sys import *
 import random
 from particle import *
 
@@ -17,6 +15,7 @@ def main() -> None:
     print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
+    game_over = False
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
@@ -64,8 +63,8 @@ def main() -> None:
                     result = player.hit()
                     if result is True:
                         print("Game over!")
-                        sys.exit()
-                    break
+                        game_over = True
+                        break
             
         for shot in shots:
             for asteroid in asteroids:
@@ -86,8 +85,31 @@ def main() -> None:
         screen.blit(text_surface, (10, 10))      # top-left corner    
         lives_surface = font.render(f"Lives: {player.lives}", True, (255, 255, 255))
         screen.blit(lives_surface, (10, 40))  # just below the score
-        
         display.flip()
+        
+        if game_over:
+            break
+    
+    
+    while game_over:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    return  # quit the app
+    
+        screen.fill("black")
+        game_over_surface = font.render("GAME OVER", True, (255, 255, 255))
+        final_score_surface = font.render(f"Final Score: {score}", True, (255, 255, 255))
+        quit_surface = font.render("Press Q to quit", True, (255, 255, 255))
+    
+        screen.blit(game_over_surface, (SCREEN_WIDTH / 2 - 80, SCREEN_HEIGHT / 2 - 40))
+        screen.blit(final_score_surface, (SCREEN_WIDTH / 2 - 80, SCREEN_HEIGHT / 2))
+        screen.blit(quit_surface, (SCREEN_WIDTH / 2 - 80, SCREEN_HEIGHT / 2 + 40))
+    
+        pygame.display.flip()
+        
         
 
 
