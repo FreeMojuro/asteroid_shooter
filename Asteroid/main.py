@@ -7,6 +7,8 @@ from player import *
 from asteroidfield import *
 import sys
 from sys import *
+import random
+from particle import *
 
 
 
@@ -19,6 +21,7 @@ def main() -> None:
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
     dt = 0.0
+    score = 0
     
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
@@ -28,8 +31,11 @@ def main() -> None:
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
     Shot.containers = (shots,updatable,drawable)
+    Particle.containers = (updatable,drawable)
     player = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
     asteroid_field = AsteroidField()
+    font = pygame.font.Font(None, 36)
+    
     
     while True:
         log_state()
@@ -54,10 +60,16 @@ def main() -> None:
                     log_event("asteroid_shot")
                     asteroid.split()
                     shot.kill()
+                    score += 50
+                    # Spawn particles at the asteroid's position
+                    for i in range(10):
+                        Particle(asteroid.position.x, asteroid.position.y)
+                    
                     
                 
             
-            
+        text_surface = font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(text_surface, (10, 10))      # top-left corner    
         display.flip()
         
 

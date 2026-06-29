@@ -1,5 +1,4 @@
 from circleshape import *
-import circleshape
 from pygame import *
 from constants import *
 
